@@ -22,19 +22,31 @@ class ThoughtsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         //Culculate Progress Points
-//        let progressPoints = calculateProgressPoints()
-//        if (progressPoints != 0) {
-//            self.progressCounterLabel.text =  String(describing: progressPoints)
-//            if (progressPoints<0){
-//                self.progressCounterLabel.textColor = .red
-//            }
-//            else{
-//                self.progressCounterLabel.textColor = UIColor(red: 64/255, green: 128/255, blue: 0/255, alpha: 1.0)
-//            }
-//        }
-//        else{
-//            self.progressCounterLabel.text =  "0"
-//        }
+        let progressPoints = CountersCalculations().ProgressPoints
+        
+        
+        if (progressPoints != 0) {
+            self.progressCounterLabel.text =  String(describing: progressPoints)
+            if (progressPoints<0){
+                self.progressCounterLabel.textColor = .red
+            }
+            else{
+                self.progressCounterLabel.textColor = UIColor(red: 64/255, green: 128/255, blue: 0/255, alpha: 1.0)
+            }
+        }
+        else{
+            self.progressCounterLabel.text =  "0"
+        }
+        
+        //Set Thought Counter
+        let cnt = CountersCalculations().Counters
+        if let thought_cnt = cnt.first(where: { (key, _) in key.contains("thought") }) {
+            self.thoughtsCounterLabel.text =  String(describing: (thought_cnt.value as! Int)/20)
+            
+        }
+        else{
+            self.thoughtsCounterLabel.text =  "0"
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -61,6 +73,34 @@ class ThoughtsViewController: UIViewController {
         
         //Save data to CoreData
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        
+        //And Update Counters view
+        //Culculate Progress Points
+        let progressPoints = CountersCalculations().ProgressPoints
+        
+        
+        if (progressPoints != 0) {
+            self.progressCounterLabel.text =  String(describing: progressPoints)
+            if (progressPoints<0){
+                self.progressCounterLabel.textColor = .red
+            }
+            else{
+                self.progressCounterLabel.textColor = UIColor(red: 64/255, green: 128/255, blue: 0/255, alpha: 1.0)
+            }
+        }
+        else{
+            self.progressCounterLabel.text =  "0"
+        }
+        
+        //Update Thought Counter
+        let cnt = CountersCalculations().Counters
+        if let thought_cnt = cnt.first(where: { (key, _) in key.contains("thought") }) {
+            self.thoughtsCounterLabel.text =  String(describing: (thought_cnt.value as! Int)/20)
+            
+        }
+        else{
+            self.thoughtsCounterLabel.text =  "0"
+        }
         
     }
 }

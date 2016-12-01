@@ -71,11 +71,7 @@ class MainViewController: UIViewController {
         
         //Culculate Progress Points
         
-        //let progressPoints = calculateProgressPoints()
-        
-        let m = CountersCalculations()
-        
-        let progressPoints = m.ProgressPoints
+        let progressPoints = CountersCalculations().ProgressPoints
 
         
         if (progressPoints != 0) {

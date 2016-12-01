@@ -78,12 +78,12 @@
 				5E7E0C941DED7F2200A54376 /* MessageViewController.swift */,
 				5E7E0C961DED7F8600A54376 /* StatListViewController.swift */,
 				5E7E0C981DED7FE200A54376 /* CallViewController.swift */,
+				5E2F86711DF053D80069A184 /* CountersCalculations.swift */,
 				5EB2D4241DD5F796000848A9 /* Main.storyboard */,
 				5EB2D42A1DD5F796000848A9 /* Assets.xcassets */,
 				5EB2D42C1DD5F796000848A9 /* LaunchScreen.storyboard */,
 				5EB2D42F1DD5F796000848A9 /* Info.plist */,
 				5EB2D4271DD5F796000848A9 /* NotLove.xcdatamodeld */,
-				5E2F86711DF053D80069A184 /* CountersCalculations.swift */,
 			);
 			path = NotLove;
 			sourceTree = "<group>";
