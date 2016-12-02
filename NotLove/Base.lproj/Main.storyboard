@@ -773,7 +773,7 @@
                                                     <constraint firstAttribute="height" constant="22" id="cwU-wd-mpc"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01.01.2016" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V3O-kf-Qe5">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V3O-kf-Qe5">
                                                 <rect key="frame" x="104.5" y="46" width="124" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="124" id="2u4-na-mxa"/>
@@ -843,6 +843,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="lastContactDateLabel" destination="V3O-kf-Qe5" id="eKw-K4-lqw"/>
                         <outlet property="no_contact_daysCounterLabel" destination="FH4-NY-xM9" id="hqP-0b-gNR"/>
                         <outlet property="progressCounterLabel" destination="nRD-1d-UmB" id="Z9Y-TQ-Sey"/>
                         <outlet property="returnButton" destination="RMV-pg-7vm" id="zCM-WD-fsz"/>

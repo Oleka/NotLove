@@ -22,6 +22,10 @@ class CountersCalculations {
         return getCounters()
     }
     
+    var Dates:[String:AnyObject] {
+        return getLastDate()
+    }
+    
     func calculateProgressPoints() -> Int {
         
         var plusTotal: Int16 = 0
@@ -119,6 +123,51 @@ class CountersCalculations {
         return counters
     }
 
+    func getLastDate() -> [String:AnyObject]{
+        
+        let _context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        
+        let activityFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "StatLog")
+        activityFetch.resultType = .dictionaryResultType
+        
+        let dt = NSExpressionDescription()
+        dt.name = "dt"
+        dt.expression = NSExpression(format: "max:(dt)")
+        dt.expressionResultType = .dateAttributeType
+        
+        let byStattype = NSExpressionDescription()
+        byStattype.name = "statType"
+        byStattype.expression = NSExpression(format: "statType")
+        byStattype.expressionResultType = .stringAttributeType
+        
+        activityFetch.propertiesToFetch    = [byStattype,dt]
+        activityFetch.propertiesToGroupBy  = [byStattype]
+        
+        var counters : [String:AnyObject] = [:]
+        
+        // Our result is going to be an array of dictionaries.
+        var results:[[String:AnyObject]]?
+        
+        // Perform the fetch. This is using Swfit 2, so we need a do/try/catch
+        do {
+            results = try _context.fetch(activityFetch) as? [[String:AnyObject]]
+            
+            for res in results! {
+                
+                if let entry_statType = res.first(where: { (key, _) in key.contains("statType") }) {
+                    if let entry_value = res.first(where: { (key, _) in key.contains("dt") }) {
+                        counters[entry_statType.value as! String] = entry_value.value
+                    }
+                }
+            }
+            
+        } catch _ {
+            // If it fails, ensure the array is nil
+            results = nil
+        }
+        return counters
+    }
 
     
 }

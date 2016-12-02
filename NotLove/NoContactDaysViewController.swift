@@ -12,8 +12,21 @@ class NoContactDaysViewController: UIViewController {
     
     @IBOutlet weak var returnButton: UIButton!
     
+    @IBOutlet weak var lastContactDateLabel: UILabel!
     @IBOutlet weak var no_contact_daysCounterLabel: UILabel!
     @IBOutlet weak var progressCounterLabel: UILabel!
+    
+    func getDate (dd:NSDate) -> String {
+        
+        var dateString: String = ""
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        
+        dateString = dateFormatter.string(from: dd as Date)
+        
+        return dateString
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +34,7 @@ class NoContactDaysViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         
         //Culculate Progress Points
         let progressPoints = CountersCalculations().ProgressPoints
@@ -47,6 +61,15 @@ class NoContactDaysViewController: UIViewController {
         }
         else{
             self.no_contact_daysCounterLabel.text =  "0"
+        }
+        
+        //Set Last Date
+        let last_dates = CountersCalculations().Dates
+        if let last_date_meeting = last_dates.first(where: { (key, _) in key.contains("meeting") }) {
+            self.lastContactDateLabel.text =  getDate(dd: last_date_meeting.value as! NSDate)
+        }
+        else{
+            self.lastContactDateLabel.text =  "-"
         }
     }
     
@@ -119,6 +142,9 @@ class NoContactDaysViewController: UIViewController {
         
         //Save data to CoreData
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        
+        //Set up Last Meeting Date
+        self.lastContactDateLabel.text = getDate(dd:NSDate())
         
         //Update Progress Points
         let progressPoints = CountersCalculations().ProgressPoints
