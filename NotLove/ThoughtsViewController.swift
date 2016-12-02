@@ -13,6 +13,7 @@ class ThoughtsViewController: UIViewController {
     @IBOutlet weak var returnButton: UIButton!
     @IBOutlet weak var thoughtsCounterLabel: UILabel!
     @IBOutlet weak var progressCounterLabel: UILabel!
+    @IBOutlet weak var pointsLabel: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,9 @@ class ThoughtsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        //Hide pointsLabel
+        self.pointsLabel.isHidden=true
         
         //Culculate Progress Points
         let progressPoints = CountersCalculations().ProgressPoints
@@ -101,6 +105,29 @@ class ThoughtsViewController: UIViewController {
         else{
             self.thoughtsCounterLabel.text =  "0"
         }
+        
+        //Animation
+//        UIView.animate(withDuration: 0.75, delay: 0, options: .curveLinear, animations: {
+//            // this will change Y position of your imageView center
+//            // by 1 every time you press button
+//            self.pointsLabel.isHidden=false
+//            self.pointsLabel.center.y += 250
+//            self.pointsLabel.center.x += 100
+//            
+//        }, completion: nil)
+        
+        //
+        UIView.animate(withDuration: 1.0, animations:{
+            self.pointsLabel.isHidden=false
+            self.pointsLabel.center.y += 300
+            self.pointsLabel.center.x += 150
+            self.pointsLabel.transform = CGAffineTransform(scaleX: 0.5, y: 0.5) },
+                                          completion:{
+            (finish: Bool) in UIView.animate(withDuration: 0.6, animations:{
+            self.pointsLabel.transform = CGAffineTransform.identity
+            self.pointsLabel.isHidden  = true
+            })
+        })
         
     }
 }
