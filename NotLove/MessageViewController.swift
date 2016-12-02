@@ -12,12 +12,43 @@ class MessageViewController: UIViewController {
     
     @IBOutlet weak var returnButton: UIButton!
     @IBOutlet weak var progressCounterLabel: UILabel!
-    
     @IBOutlet weak var messagesCounterLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        //Culculate Progress Points
+        let progressPoints = CountersCalculations().ProgressPoints
+        
+        
+        if (progressPoints != 0) {
+            self.progressCounterLabel.text =  String(describing: progressPoints)
+            if (progressPoints<0){
+                self.progressCounterLabel.textColor = .red
+            }
+            else{
+                self.progressCounterLabel.textColor = UIColor(red: 64/255, green: 128/255, blue: 0/255, alpha: 1.0)
+            }
+        }
+        else{
+            self.progressCounterLabel.text =  "0"
+        }
+        
+        //Set Message Counter
+        let cnt = CountersCalculations().Counters
+        if let mess_cnt = cnt.first(where: { (key, _) in key.contains("message") }) {
+            self.messagesCounterLabel.text =  String(describing: (mess_cnt.value as! Int)/100)
+            
+        }
+        else{
+            self.messagesCounterLabel.text =  "0"
+        }
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -36,13 +67,31 @@ class MessageViewController: UIViewController {
         let log = StatLog(context: _context)
         log.dt = NSDate()
         log.value = 50
-        log.name = "📩 +1 no message"
+        log.name = "✂️ +1 no message"
         log.type = true
         log.statType = "no_me"
         
         
         //Save data to CoreData
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        
+        //Update Culculate Progress Points
+        let progressPoints = CountersCalculations().ProgressPoints
+        
+        
+        if (progressPoints != 0) {
+            self.progressCounterLabel.text =  String(describing: progressPoints)
+            if (progressPoints<0){
+                self.progressCounterLabel.textColor = .red
+            }
+            else{
+                self.progressCounterLabel.textColor = UIColor(red: 64/255, green: 128/255, blue: 0/255, alpha: 1.0)
+            }
+        }
+        else{
+            self.progressCounterLabel.text =  "0"
+        }
+        
     }
     @IBAction func addMessage(_ sender: Any) {
         let _context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -57,5 +106,33 @@ class MessageViewController: UIViewController {
         
         //Save data to CoreData
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        
+        //Update Culculate Progress Points
+        let progressPoints = CountersCalculations().ProgressPoints
+        
+        
+        if (progressPoints != 0) {
+            self.progressCounterLabel.text =  String(describing: progressPoints)
+            if (progressPoints<0){
+                self.progressCounterLabel.textColor = .red
+            }
+            else{
+                self.progressCounterLabel.textColor = UIColor(red: 64/255, green: 128/255, blue: 0/255, alpha: 1.0)
+            }
+        }
+        else{
+            self.progressCounterLabel.text =  "0"
+        }
+        
+        //Update Message Counter
+        let cnt = CountersCalculations().Counters
+        if let mess_cnt = cnt.first(where: { (key, _) in key.contains("message") }) {
+            self.messagesCounterLabel.text =  String(describing: (mess_cnt.value as! Int)/100)
+            
+        }
+        else{
+            self.messagesCounterLabel.text =  "0"
+        }
+
     }
 }

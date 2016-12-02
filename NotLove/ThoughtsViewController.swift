@@ -66,7 +66,7 @@ class ThoughtsViewController: UIViewController {
         let log = StatLog(context: _context)
         log.dt = NSDate()
         log.value = 20
-        log.name = "😴 +1 thought"
+        log.name = "🤔 +1 thought"
         log.type = false
         log.statType = "thought"
         

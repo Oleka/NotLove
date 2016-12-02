@@ -44,7 +44,6 @@ class CountersCalculations {
                 let pSum = stat.value
                 plusTotal = plusTotal + pSum
             }
-            print("Total Plus= \(plusTotal)")
             
         } catch {
             print("There was an error fetching Plus Operations.")
@@ -64,7 +63,7 @@ class CountersCalculations {
                 let mSum = stat.value
                 minusTotal = minusTotal + mSum
             }
-            print("Minus Plus= \(minusTotal)")
+            
             
         } catch {
             print("There was an error fetching Minus Operations.")
