@@ -15,6 +15,8 @@ class NoContactDaysViewController: UIViewController {
     @IBOutlet weak var lastContactDateLabel: UILabel!
     @IBOutlet weak var no_contact_daysCounterLabel: UILabel!
     @IBOutlet weak var progressCounterLabel: UILabel!
+    @IBOutlet weak var pointsPlusLabel: UIImageView!
+    @IBOutlet weak var pointsMinusLabel: UIImageView!
     
     func getDate (dd:NSDate) -> String {
         
@@ -35,7 +37,10 @@ class NoContactDaysViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        
+        //Hide pointsLabel
+        self.pointsPlusLabel.isHidden=true
+        self.pointsMinusLabel.isHidden=true
+
         //Culculate Progress Points
         let progressPoints = CountersCalculations().ProgressPoints
         
@@ -126,6 +131,20 @@ class NoContactDaysViewController: UIViewController {
             self.no_contact_daysCounterLabel.text =  "0"
         }
         
+        //Animation
+        
+        UIView.animate(withDuration: 1.0, animations:{
+            self.pointsPlusLabel.isHidden=false
+            self.pointsPlusLabel.center.y += 300
+            self.pointsPlusLabel.center.x += 180
+            self.pointsPlusLabel.transform = CGAffineTransform(scaleX: 0.2, y: 0.2) },
+                       completion:{
+                        (finish: Bool) in UIView.animate(withDuration: 0.6, animations:{
+                            self.pointsPlusLabel.transform = CGAffineTransform.identity
+                            self.pointsPlusLabel.isHidden  = true
+                        })
+        })
+
     }
     
     @IBAction func addMeeting(_ sender: Any) {
@@ -162,6 +181,21 @@ class NoContactDaysViewController: UIViewController {
         else{
             self.progressCounterLabel.text =  "0"
         }
+        
+        //Animation
+        
+        UIView.animate(withDuration: 1.0, animations:{
+            self.pointsMinusLabel.isHidden=false
+            self.pointsMinusLabel.center.y -= 190
+            self.pointsMinusLabel.center.x += 30
+            self.pointsMinusLabel.transform = CGAffineTransform(scaleX: 0.2, y: 0.2) },
+                       completion:{
+                        (finish: Bool) in UIView.animate(withDuration: 0.6, animations:{
+                            self.pointsMinusLabel.transform = CGAffineTransform.identity
+                            self.pointsMinusLabel.isHidden  = true
+                        })
+        })
+
     }
     
 }

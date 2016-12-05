@@ -107,16 +107,7 @@ class ThoughtsViewController: UIViewController {
         }
         
         //Animation
-//        UIView.animate(withDuration: 0.75, delay: 0, options: .curveLinear, animations: {
-//            // this will change Y position of your imageView center
-//            // by 1 every time you press button
-//            self.pointsLabel.isHidden=false
-//            self.pointsLabel.center.y += 250
-//            self.pointsLabel.center.x += 100
-//            
-//        }, completion: nil)
         
-        //
         UIView.animate(withDuration: 1.0, animations:{
             self.pointsLabel.isHidden=false
             self.pointsLabel.center.y += 300

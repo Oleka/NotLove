@@ -58,6 +58,9 @@ class MainViewController: UIViewController,UIAlertViewDelegate {
     
     @IBOutlet weak var meetsCounterLabel: UILabel!
     
+    @IBOutlet weak var hi_everydayLabel: UIImageView!
+    
+    @IBOutlet weak var bgLabel: UIImageView!
     
     func getDate (dd:NSDate) -> String {
         
@@ -74,26 +77,32 @@ class MainViewController: UIViewController,UIAlertViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+    }
+
+    func updateFirstView(){
+        self.bgLabel.isHidden          = true
+        self.hi_everydayLabel.isHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
         //EveryDay bonus
         let last_dates = CountersCalculations().Dates
         
-        if last_dates.first(where: { (key, _) in key.contains("everyday") }) != nil {
-            
-        }
-        else{
-            //View Everyday Bonus view
-            let alert = UIAlertController(title: "Hi, nice to meet you :)", message: "Everyday bonus +100 points", preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {
-                action in
+        let last_date_meeting = last_dates.first(where: { (key, _) in key.contains("everyday") })
+        
+        if last_date_meeting != nil {
+            //compare with today
+            if getDate(dd: last_date_meeting?.value as! NSDate)==getDate(dd: NSDate()){
+                self.bgLabel.isHidden=true
+                self.hi_everydayLabel.isHidden=true
+            }
+            else{
                 
-                //self.dismissViewControllerAnimated(true, completion: nil)
-                
-                
-            }))
-            
-            self.present(alert, animated: true, completion: nil)
-            
+            self.bgLabel.isHidden=false
+            self.hi_everydayLabel.isHidden=false
+        
             //Add bonus into database
             let _context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
             
@@ -108,14 +117,34 @@ class MainViewController: UIViewController,UIAlertViewDelegate {
             //Save data to CoreData
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
             
+            //show hi everyday images
+            var _ = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(MainViewController.updateFirstView), userInfo: nil, repeats: false);
+            }
         }
+        else{
+            //Add bonus into database at first time (if empty database)
+            self.bgLabel.isHidden=false
+            self.hi_everydayLabel.isHidden=false
+            
+            let _context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            
+            //Add into StatLog
+            let log = StatLog(context: _context)
+            log.dt = NSDate()
+            log.value = 100
+            log.name = "😎 Everyday Bonus"
+            log.type = true
+            log.statType = "everyday"
+            
+            //Save data to CoreData
+            (UIApplication.shared.delegate as! AppDelegate).saveContext()
+            
+            //show hi everyday images
+            var _ = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(MainViewController.updateFirstView), userInfo: nil, repeats: false);
+        
+        }
+        
 
-        
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        
-        
         //Culculate Progress Points
         
         let progressPoints = CountersCalculations().ProgressPoints

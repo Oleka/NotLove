@@ -13,6 +13,8 @@ class CallViewController: UIViewController {
     @IBOutlet weak var returnButton: UIButton!
     @IBOutlet weak var callsCounterLabel: UILabel!
     @IBOutlet weak var progressCounterLabel: UILabel!
+    @IBOutlet weak var pointsPlusLabel: UIImageView!
+    @IBOutlet weak var pointsMinusLabel: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,10 @@ class CallViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        //Hide pointsLabel
+        self.pointsPlusLabel.isHidden=true
+        self.pointsMinusLabel.isHidden=true
         
         //Culculate Progress Points
         let progressPoints = CountersCalculations().ProgressPoints
@@ -91,6 +97,21 @@ class CallViewController: UIViewController {
         else{
             self.progressCounterLabel.text =  "0"
         }
+        
+        //Animation
+        
+        UIView.animate(withDuration: 1.0, animations:{
+            self.pointsPlusLabel.isHidden=false
+            self.pointsPlusLabel.center.y += 300
+            self.pointsPlusLabel.center.x += 320
+            self.pointsPlusLabel.transform = CGAffineTransform(scaleX: 0.2, y: 0.2) },
+                       completion:{
+                        (finish: Bool) in UIView.animate(withDuration: 0.6, animations:{
+                            self.pointsPlusLabel.transform = CGAffineTransform.identity
+                            self.pointsPlusLabel.isHidden  = true
+                        })
+        })
+
 
     }
     @IBAction func addCall(_ sender: Any) {
@@ -104,6 +125,19 @@ class CallViewController: UIViewController {
         log.type = false
         log.statType = "call"
         
+        //Animation
+        
+        UIView.animate(withDuration: 1.0, animations:{
+            self.pointsMinusLabel.isHidden=false
+            self.pointsMinusLabel.center.y += 300
+            self.pointsMinusLabel.center.x += 50
+            self.pointsMinusLabel.transform = CGAffineTransform(scaleX: 0.2, y: 0.2) },
+                       completion:{
+                        (finish: Bool) in UIView.animate(withDuration: 0.6, animations:{
+                            self.pointsMinusLabel.transform = CGAffineTransform.identity
+                            self.pointsMinusLabel.isHidden  = true
+                        })
+        })
         
         //Save data to CoreData
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
