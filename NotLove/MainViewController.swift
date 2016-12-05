@@ -41,7 +41,7 @@ extension UIView {
 }
 
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController,UIAlertViewDelegate {
     
     var statPlus : [StatLog] = []
     var statMinus : [StatLog] = []
@@ -59,15 +59,62 @@ class MainViewController: UIViewController {
     @IBOutlet weak var meetsCounterLabel: UILabel!
     
     
-    
+    func getDate (dd:NSDate) -> String {
+        
+        var dateString: String = ""
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        
+        dateString = dateFormatter.string(from: dd as Date)
+        
+        return dateString
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        //EveryDay bonus
+        let last_dates = CountersCalculations().Dates
+        
+        if last_dates.first(where: { (key, _) in key.contains("everyday") }) != nil {
+            
+        }
+        else{
+            //View Everyday Bonus view
+            let alert = UIAlertController(title: "Hi, nice to meet you :)", message: "Everyday bonus +100 points", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {
+                action in
+                
+                //self.dismissViewControllerAnimated(true, completion: nil)
+                
+                
+            }))
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            //Add bonus into database
+            let _context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            
+            //Add into StatLog
+            let log = StatLog(context: _context)
+            log.dt = NSDate()
+            log.value = 100
+            log.name = "😎 Everyday Bonus"
+            log.type = true
+            log.statType = "everyday"
+            
+            //Save data to CoreData
+            (UIApplication.shared.delegate as! AppDelegate).saveContext()
+            
+        }
+
         
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        
         
         //Culculate Progress Points
         
