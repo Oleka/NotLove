@@ -15,6 +15,11 @@ class MessageViewController: UIViewController {
     @IBOutlet weak var messagesCounterLabel: UILabel!
     @IBOutlet weak var pointsPlusLabel: UIImageView!
     @IBOutlet weak var pointsMinusLabel: UIImageView!
+    @IBOutlet weak var hiMessage: UIImageView!
+    
+    func updateFirstView(){
+        self.hiMessage.isHidden = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +31,10 @@ class MessageViewController: UIViewController {
         //Hide pointsLabel
         self.pointsPlusLabel.isHidden=true
         self.pointsMinusLabel.isHidden=true
+        self.hiMessage.isHidden=false
+        
+        //show hi everyday images
+        var _ = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(MessageViewController.updateFirstView), userInfo: nil, repeats: false);
         
         //Culculate Progress Points
         let progressPoints = CountersCalculations().ProgressPoints
